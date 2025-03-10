@@ -1,0 +1,139 @@
+.characterCard {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 2px solid #6ab408;
+  border-radius: 10px;
+}
+
+.title {
+  color: #6ab408;
+  text-shadow: 0 0 5px #3baa08, 0 0 10px #3baa08;
+}
+
+.level {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.health {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #1eff00;
+  color: #1eff00;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.levelContainer:hover {
+  background: rgba(0, 255, 255, 0.3);
+}
+
+.healthProgressFill {
+  height: 100%;
+  background: #ff0000;
+  border-radius: 5px;
+  transition: width 0.3s ease-in-out;
+}
+
+.progressBar {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: #1eff00;
+  border-radius: 5px;
+  transition: width 0.3s ease-in-out;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #1eff00;
+  color: #1eff00;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: background 0.3s;
+  gap: 10px;
+}
+
+.statItem:hover {
+  background: rgba(0, 255, 255, 0.3);
+}
+
+.status {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #1eff00;
+  color: #1eff00;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.status:hover {
+  background: rgba(0, 255, 255, 0.3);
+}
+
+.fullWidthStat {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: row;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #1eff00;
+  color: #1eff00;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: background 0.3s;
+  gap: 10px;
+}
+
+.fullWidthStat:hover {
+  background: rgba(0, 255, 255, 0.3);
+}
+
+@media screen and (max-width: 1024px) {
+  .statItem {
+    padding: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .characterCard {
+    max-width: 500px;
+    padding: 10px;
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .characterCard {
+    max-width: 300px;
+    padding: 5px;
+    margin: 0px;
+  }
+}

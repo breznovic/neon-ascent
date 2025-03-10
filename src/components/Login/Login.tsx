@@ -22,10 +22,22 @@ const Login: React.FC = () => {
 
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
-      const response = await axios.post("http://127.0.0.1:8000/login/", data);
-      console.log("User logged in:", response.data);
+      const formData = new URLSearchParams();
+      formData.append("username", data.username);
+      formData.append("password", data.password);
+
+      const response = await axios.post(
+        "http://127.0.0.1:8000/login/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
       localStorage.setItem("token", response.data.access_token);
-      navigate("/dashboard");
+      navigate("/home");
     } catch (err) {
       setError("Login failed. Please check your credentials.");
       console.error(err);
@@ -34,7 +46,7 @@ const Login: React.FC = () => {
 
   return (
     <div className={s.container}>
-      <h2>Login</h2>
+      <h2 className="neonText">Login</h2>
       {error && <p className={s.error}>{error}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>

@@ -1,6 +1,6 @@
 .container {
   max-width: 400px;
-  margin: 0 auto;
+  margin: 150px auto;
   padding: 20px;
   border: 2px solid #ff00ff;
   border-radius: 10px;
@@ -9,4 +9,10 @@
 
 .error {
   color: #ff0000;
+}
+
+@media screen and (max-width: 640px) {
+  .container {
+    max-width: 300px;
+  }
 }

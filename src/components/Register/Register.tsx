@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -18,23 +18,43 @@ const Register: React.FC = () => {
   const navigate = useNavigate();
   const [error, setError] = React.useState<string | null>(null);
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/main");  
+    }
+  }, [navigate]);
+
   const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/register/",
         data
       );
-      console.log("User registered:", response.data);
-      navigate("/login");
+      localStorage.setItem("token", response.data.access_token);
+      navigate("/main"); 
     } catch (err) {
-      setError("Registration failed. Please try again.");
-      console.error(err);
+      if (axios.isAxiosError(err) && err.response) {
+        if (
+          err.response.status === 400 &&
+          err.response.data.detail === "Username already registered"
+        ) {
+          setError("This username is already taken. Please choose another.");
+          navigate("/login"); 
+        } else if (err.response.status === 500) {
+          setError("An unexpected server error occurred. Please try again.");
+        } else {
+          setError("Registration failed. Please try again.");
+        }
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
     }
   };
 
   return (
     <div className={s.container}>
-      <h2>Register</h2>
+      <h2 className="neonText">Register</h2>
       {error && <p className={s.error}>{error}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>

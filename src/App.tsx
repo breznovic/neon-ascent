@@ -1,19 +1,19 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
 import "./App.module.css";
-import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
-import MainPage from "./components/MainPage/MainPage";
+import { useNavigate } from "react-router-dom";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<MainPage />} />
-      </Routes>
-    </BrowserRouter>
-  );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/home");
+    }
+  }, [navigate]);
+
+  return <Register />;
 }
 
 export default App;

@@ -28,8 +28,12 @@ h2 {
   text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
 }
 
+p {
+  color: #0ff;
+}
+
 input {
-  width: 100%;
+  width: 90%;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #00ffff;
@@ -39,13 +43,15 @@ input {
 }
 
 button {
-  width: 100%;
+  width: 95%;
   padding: 10px;
   background-color: #ff00ff;
-  color: #000;
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 10px;
+  font-size: 16px;
 }
 
 button:hover {
@@ -54,4 +60,10 @@ button:hover {
 
 .neonText {
   animation: neonGlow 5s infinite;
+}
+
+@media screen and (max-width: 640px) {
+  button {
+    width: 97%;
+  }
 }

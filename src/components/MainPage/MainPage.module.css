@@ -1,8 +1,22 @@
 .container {
   max-width: 400px;
-  margin: 0 auto;
+  margin: 150px auto;
   padding: 20px;
   border: 2px solid #ff00ff;
   border-radius: 10px;
   background-color: #1a1a1a;
+}
+
+h1 {
+  margin-bottom: 40px;
+}
+
+.text {
+  color: #0ff;
+}
+
+@media screen and (max-width: 640px) {
+  .container {
+    max-width: 300px;
+  }
 }
