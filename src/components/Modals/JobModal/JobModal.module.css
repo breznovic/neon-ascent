@@ -1,0 +1,87 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 100%;
+  color: white;
+}
+
+.jobOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.jobButton {
+  padding: 10px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.jobButton:hover {
+  background: #444;
+}
+
+.closeButton {
+  margin-top: 20px;
+  padding: 10px;
+  background: #555;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  background: #666;
+}
+
+@media screen and (max-width: 640px) {
+  .modalContent {
+    padding: 10px;
+    max-width: 500px;
+    width: 85%;
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .shopImage {
+    width: 435px;
+    height: 180px;
+  }
+
+  .closeButton {
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .modalContent {
+    padding: 10px;
+    max-width: 500px;
+    width: 85%;
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .shopImage {
+    width: 310px;
+    height: 180px;
+  }
+}

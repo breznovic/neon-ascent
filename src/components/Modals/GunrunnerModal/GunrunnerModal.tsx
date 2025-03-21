@@ -1,6 +1,6 @@
 import React from "react";
 import s from "./GunrunnerModal.module.css";
-import shop from "../../assets/shop.jpg";
+import shop from "../../../assets/shop.jpg";
 
 type Weapon = {
   id: number;
@@ -12,14 +12,18 @@ type Weapon = {
 
 type GunrunnerModalProps = {
   weapons: Weapon[];
+  currentWeapon: Weapon | null;
   onClose: () => void;
   onBuy: (weaponId: number) => void;
+  onSell: () => void;
 };
 
 const GunrunnerModal: React.FC<GunrunnerModalProps> = ({
   weapons,
+  currentWeapon,
   onClose,
   onBuy,
+  onSell,
 }) => {
   return (
     <div className={s.modalOverlay}>
@@ -39,6 +43,14 @@ const GunrunnerModal: React.FC<GunrunnerModalProps> = ({
             </li>
           ))}
         </ul>
+        {currentWeapon && (
+          <div>
+            <p>You already have a weapon: {currentWeapon.name}. </p>
+            <div onClick={onSell} className={s.weaponItem}>
+              Sell for {currentWeapon.price / 2} ⛃
+            </div>
+          </div>
+        )}
         <button onClick={onClose} className={s.closeButton}>
           Close
         </button>

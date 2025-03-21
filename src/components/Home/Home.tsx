@@ -4,9 +4,17 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import CharacterCard from "../CharacterCard/CharacterCard";
 import room from "../../assets/room.png";
-import GunrunnerModal from "../GunrunnerModal/GunrunnerModal";
-import NotificationModal from "../NotificationModal/NotificationModal";
+import GunrunnerModal from "../Modals/GunrunnerModal/GunrunnerModal";
+import NotificationModal from "../Modals/NotificationModal/NotificationModal";
+import JobModal from "../Modals/JobModal/JobModal";
 
+type Weapon = {
+  id: number;
+  name: string;
+  damage: number;
+  weapon_type: string;
+  price: number;
+};
 export type Character = {
   name: string;
   health: number;
@@ -17,17 +25,9 @@ export type Character = {
   experience: number;
   credits: number;
   status: string;
-  weapon: { name: string } | null;
+  weapon: Weapon | null;
   level: number;
   id: number;
-};
-
-type Weapon = {
-  id: number;
-  name: string;
-  damage: number;
-  weapon_type: string;
-  price: number;
 };
 
 const Home: React.FC = () => {
@@ -37,6 +37,7 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   const [isGunrunnerModalOpen, setIsGunrunnerModalOpen] = useState(false);
+  const [isJobModalOpen, setIsJobModalOpen] = useState(false);
   const [weapons, setWeapons] = useState<Weapon[]>([]);
   const [discountedPrice, setDiscountedPrice] = useState<number | null>(null);
   const [notification, setNotification] = useState<{
@@ -123,8 +124,73 @@ const Home: React.FC = () => {
     }
   };
 
+  const handleSellWeapon = async () => {
+    try {
+      if (!characterData || !characterData.weapon) return;
+
+      const response = await axios.post(
+        `http://127.0.0.1:8000/characters/${characterData.id}/sell-weapon/`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      setCharacterData(response.data);
+      setNotification({
+        message: `Weapon sold for ${characterData.weapon.price / 2} ⛃`,
+        isError: false,
+      });
+    } catch (err) {
+      console.error("Error selling weapon:", err);
+      setNotification({
+        message: "Error selling weapon.",
+        isError: true,
+      });
+    }
+  };
+
+  const handleFindJobClick = () => {
+    setIsJobModalOpen(true);
+  };
+
+  const handleSelectJob = async (job: string) => {
+    try {
+      if (!characterData) return;
+
+      const response = await axios.post(
+        `http://127.0.0.1:8000/characters/${characterData.id}/update-job/`,
+        { job },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setCharacterData(response.data);
+      setNotification({
+        message: `You are now a ${job}!`,
+        isError: false,
+      });
+    } catch (err) {
+      console.error("Error updating job:", err);
+      setNotification({
+        message: "Failed to update job.",
+        isError: true,
+      });
+    }
+  };
+
   const closeNotification = () => {
     setNotification(null);
+  };
+
+  const handleNotify = (message: string, isError: boolean) => {
+    setNotification({ message, isError });
   };
 
   if (loading) {
@@ -147,7 +213,7 @@ const Home: React.FC = () => {
         <button onClick={() => {}} className={s.button}>
           Resting
         </button>
-        <button onClick={() => {}} className={s.button}>
+        <button onClick={handleFindJobClick} className={s.button}>
           Find a job
         </button>
         <button onClick={handleGunrunnerClick} className={s.button}>
@@ -157,8 +223,23 @@ const Home: React.FC = () => {
       {isGunrunnerModalOpen && (
         <GunrunnerModal
           weapons={weapons}
+          currentWeapon={characterData?.weapon || null}
           onClose={() => setIsGunrunnerModalOpen(false)}
           onBuy={handleBuyWeapon}
+          onSell={handleSellWeapon}
+        />
+      )}
+      {isJobModalOpen && (
+        <JobModal
+          onClose={() => setIsJobModalOpen(false)}
+          onSelectJob={handleSelectJob}
+          onNotify={handleNotify}
+          characterData={{
+            strength: characterData?.strength || 0,
+            intelligence: characterData?.intelligence || 0,
+            dexterity: characterData?.dexterity || 0,
+            charisma: characterData?.charisma || 0,
+          }}
         />
       )}
       {notification && (
